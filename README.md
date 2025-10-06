@@ -10,7 +10,7 @@ npm install shuffled-priority-queue
 
 ## Usage
 
-``` js
+```js
 const spq = require('shuffled-priority-queue')
 const queue = spq()
 
@@ -91,10 +91,10 @@ Iterate the queue from highest priority to lowest using the `for of` syntax
 
 Iterate the queue from highest priority to lowest.
 
-``` js
+```js
 let prevValue = null
 
-while (prevValue = queue.next(prevValue)) {
+while ((prevValue = queue.next(prevValue))) {
   console.log('value:', prevValue)
 }
 ```
@@ -103,10 +103,10 @@ while (prevValue = queue.next(prevValue)) {
 
 Iterate the queue from lowest priority to highest.
 
-``` js
+```js
 let prevValue = null
 
-while (prevValue = queue.prev(prevValue)) {
+while ((prevValue = queue.prev(prevValue))) {
   console.log('value:', prevValue)
 }
 ```
