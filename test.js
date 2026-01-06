@@ -1,7 +1,7 @@
 const spq = require('./')
-const tape = require('tape')
+const test = require('brittle')
 
-tape('different prios', function (t) {
+test('different prios', function (t) {
   const queue = spq()
 
   const a = queue.add({
@@ -15,17 +15,16 @@ tape('different prios', function (t) {
   })
 
   t.ok(queue.has(b))
-  t.same(queue.length, 2)
-  t.same(queue.shift(), b)
+  t.is(queue.length, 2)
+  t.alike(queue.shift(), b)
   t.ok(!queue.has(b))
-  t.same(queue.length, 1)
-  t.same(queue.shift(), a)
-  t.same(queue.length, 0)
-  t.same(queue.shift(), null)
-  t.end()
+  t.is(queue.length, 1)
+  t.alike(queue.shift(), a)
+  t.is(queue.length, 0)
+  t.is(queue.shift(), null)
 })
 
-tape('same prios', function (t) {
+test('same prios', function (t) {
   const queue = spq()
 
   const a = queue.add({
@@ -43,7 +42,7 @@ tape('same prios', function (t) {
     priority: 1
   })
 
-  t.same(queue.shift(), c)
+  t.alike(queue.shift(), c)
 
   let head = queue.shift()
   t.ok(head === a || head === b)
@@ -51,11 +50,10 @@ tape('same prios', function (t) {
   head = queue.shift()
   t.ok(head === a || head === b)
 
-  t.same(queue.shift(), null)
-  t.end()
+  t.is(queue.shift(), null)
 })
 
-tape('next', function (t) {
+test('next', function (t) {
   const queue = spq()
 
   const a = queue.add({
@@ -73,7 +71,7 @@ tape('next', function (t) {
     priority: 1
   })
 
-  t.same(queue.next(), c)
+  t.alike(queue.next(), c)
 
   let value = queue.next(c)
   t.ok(value === a || value === b)
@@ -83,11 +81,10 @@ tape('next', function (t) {
   t.ok(old !== value)
   t.ok(value === a || value === b)
 
-  t.same(queue.next(value), null)
-  t.end()
+  t.is(queue.next(value), null)
 })
 
-tape('prev', function (t) {
+test('prev', function (t) {
   const queue = spq()
 
   const a = queue.add({
@@ -114,13 +111,12 @@ tape('prev', function (t) {
   t.ok(tail === a || tail === b)
 
   tail = queue.prev(tail)
-  t.same(tail, c)
+  t.alike(tail, c)
 
-  t.same(queue.prev(tail), null)
-  t.end()
+  t.is(queue.prev(tail), null)
 })
 
-tape('equals', function (t) {
+test('equals', function (t) {
   const queue = spq({
     equals: function (a, b) {
       return a.hello === b.hello
@@ -131,17 +127,16 @@ tape('equals', function (t) {
     hello: 'world'
   })
 
-  t.same(queue.head().hello, 'world')
+  t.is(queue.head().hello, 'world')
 
   queue.remove({
     hello: 'world'
   })
 
-  t.same(queue.head(), null)
-  t.end()
+  t.is(queue.head(), null)
 })
 
-tape('iterator', function (t) {
+test('iterator', function (t) {
   t.plan(5)
 
   const queue = spq()
@@ -160,5 +155,5 @@ tape('iterator', function (t) {
     seen[value.hi] = true
   }
 
-  t.same(seen, { a: true, b: true, c: true, d: true })
+  t.alike(seen, { a: true, b: true, c: true, d: true })
 })
